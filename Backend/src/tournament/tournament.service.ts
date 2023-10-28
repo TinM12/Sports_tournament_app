@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateTournamentDto } from './dto';
+import { CreateTournamentDto, GetTournamentsDto } from './dto';
 
 @Injectable()
 export class TournamentService {
@@ -51,6 +51,20 @@ export class TournamentService {
         } catch(err) {
             throw(err);
         }
-    }
+    };
+
+    async get_tournaments(dto: GetTournamentsDto) {
+        try {
+            const tournaments = await this.prisma.tournament.findMany({
+                where: {
+                    owner: dto.owner
+                }
+            });
+    
+            return tournaments;
+        } catch(err) {
+            throw(err)
+        }
+    };
 
 }

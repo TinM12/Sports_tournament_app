@@ -1,9 +1,19 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Stack, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const MyTournamentsList = () => {
 
     const [myTournaments, setMyTournaments] = useState([]);
+    const { user } = useAuth0();
+
+    const loadTournaments = async() => {
+        
+    };
+    
+    useEffect(() => {
+        loadTournaments();
+    }, [])
     
     return (
         <Box sx={{ margin: '1rem'}}> 

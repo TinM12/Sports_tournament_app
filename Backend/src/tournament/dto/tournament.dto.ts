@@ -25,3 +25,9 @@ export class CreateTournamentDto {
     @IsNotEmpty()
     owner: string;
 }
+
+export class GetTournamentsDto {
+    @IsString()
+    @IsNotEmpty()
+    owner: string;
+}
