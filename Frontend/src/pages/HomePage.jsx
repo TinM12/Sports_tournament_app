@@ -5,12 +5,11 @@ import CreateTournamentForm from '../components/CreateTournamentForm';
 import MyTournamentsList from '../components/MyTournamentsList';
 
 const HomePage = () => {
-    const { user, isAuthenticated, isLoading } = useAuth0();
+    const { isAuthenticated, isLoading } = useAuth0();
 
     if (isLoading) {
         return <div>Loading ...</div>;
     }
-    console.log(user)
     if(!isAuthenticated) {
         return <Navigate to={'/login'} />;
     }

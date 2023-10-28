@@ -27,7 +27,5 @@ export class CreateTournamentDto {
 }
 
 export class GetTournamentsDto {
-    @IsString()
-    @IsNotEmpty()
     owner: string;
 }

@@ -40,7 +40,6 @@ const CreateTournamentForm = () => {
 
         try {
             setLoading(true);
-            console.log(process.env.REACT_APP_BACKEND_URL)
             await axios.post(`${process.env.REACT_APP_BACKEND_URL}tournament`, {
                 name: data.name,
                 winpoints: parseFloat(winPoints),
@@ -55,6 +54,7 @@ const CreateTournamentForm = () => {
             setError("An error occured, try again!");
         } finally {
             setLoading(false)
+            window.location.reload(false);
         }
     }
 
