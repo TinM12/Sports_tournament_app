@@ -18,7 +18,7 @@ export class TournamentService {
                 }
             });
 
-            const link = `${process.env.FRONTEND_URL}tournament/${dto.owner}/${tournament.tournamentid}`
+            const link = `${process.env.FRONTEND_URL}tournament/${dto.owner}?id=${tournament.tournamentid}`
 
             await this.prisma.tournament.update({
                 where: {

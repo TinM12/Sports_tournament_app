@@ -40,13 +40,17 @@ const CreateTournamentForm = () => {
 
         try {
             setLoading(true);
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}tournament`, {
+            const tournament = await axios.post(`${process.env.REACT_APP_BACKEND_URL}tournament`, {
                 name: data.name,
                 winpoints: parseFloat(winPoints),
                 losspoints: parseFloat(lossPoints),
                 drawpoints: parseFloat(drawPoints),
                 contestants: contestants,
                 owner: user.email,
+            });
+
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}result`, {
+                tournamentid: tournament.tournamentid 
             });
             
             navigateTo('/');

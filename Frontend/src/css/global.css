@@ -7,3 +7,14 @@
     color: #C69749;
     margin-right: 2rem;
 }
+
+th, td {
+    padding: 0.5rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+}
