@@ -21,12 +21,12 @@ model contestant {
 model result {
   resultid                                         Int        @id @default(autoincrement())
   round                                            Int
-  winner                                           Int
+  winner                                           Int?        
   tournamentid                                     Int
-  contestandid                                     Int
-  isawaycontestandid                               Int
-  contestant_result_contestandidTocontestant       contestant @relation("result_contestandidTocontestant", fields: [contestandid], references: [contestandid], onDelete: NoAction, onUpdate: NoAction)
-  contestant_result_isawaycontestandidTocontestant contestant @relation("result_isawaycontestandidTocontestant", fields: [isawaycontestandid], references: [contestandid], onDelete: NoAction, onUpdate: NoAction)
+  homecontestandid                                 Int
+  awaycontestandid                                 Int
+  contestant_result_homecontestandidTocontestant   contestant @relation("result_contestandidTocontestant", fields: [homecontestandid], references: [contestandid], onDelete: NoAction, onUpdate: NoAction)
+  contestant_result_awaycontestandidTocontestant   contestant @relation("result_isawaycontestandidTocontestant", fields: [awaycontestandid], references: [contestandid], onDelete: NoAction, onUpdate: NoAction)
   tournament                                       tournament @relation(fields: [tournamentid], references: [tournamentid], onDelete: NoAction, onUpdate: NoAction)
 }
 
