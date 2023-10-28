@@ -47,7 +47,7 @@ const MyTournamentsList = () => {
                                         <Typography sx={{ fontWeight: 'bold', fontSize: '1.2rem', width:'40%'}}>
                                             {tournament.name}
                                         </Typography>
-                                        <Typography sx={{ width: '30%' }}>
+                                        <Typography sx={{ width: '40%' }}>
                                             LINK: {tournament.link}
                                         </Typography>
                                         <Button color='secondary' variant='contained' value={tournament.link} onClick={handleUpdate}>

@@ -32,9 +32,9 @@ const RoundsSummary = ({ tournamentid, isOwner }) => {
     return (
         <Box margin='2rem'>
             {results && 
-                <Stack direction='column' spacing='2rem' sx={{ width:'100%' }}>
+                <Stack direction='column'  sx={{ width:'100%' }}>
                     {text.map((t, index) => (
-                        <Box key={index}>
+                        <Box key={index} marginTop='2rem'>
                             {t}
                             <RoundResults results={results} round={index + 1} isOwner={isOwner}/>
                             <br/>

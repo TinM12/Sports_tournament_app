@@ -1,11 +1,7 @@
 import { Box, Button, Grid } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const RoundResults = ({ results, round, isOwner}) => {
-
-    useEffect(() => {
-        console.log(isOwner)
-    })
 
     return (
         <Box>
@@ -25,10 +21,12 @@ const RoundResults = ({ results, round, isOwner}) => {
                             </tbody>
                         </table>
                         <br/>
-                        {isOwner && 
-                            <Button variant='contained' color='secondary'>
-                                UPDATE
-                            </Button>
+                        {isOwner &&
+                            <Box marginBottom={'2rem'}>
+                                <Button variant='contained' color='secondary'>
+                                    UPDATE
+                                </Button>
+                            </Box>  
                         }
                     </Grid>
                 ))}
