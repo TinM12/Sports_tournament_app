@@ -47,7 +47,12 @@ export class TournamentService {
                 });
             }
             
-            return tournament;
+            const res = await this.prisma.tournament.findUnique({
+                where: {
+                    tournamentid: tournament.tournamentid
+                }
+            });
+            return res
         } catch(err) {
             throw(err);
         }

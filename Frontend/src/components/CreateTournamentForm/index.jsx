@@ -50,15 +50,15 @@ const CreateTournamentForm = () => {
             });
 
             await axios.post(`${process.env.REACT_APP_BACKEND_URL}result`, {
-                tournamentid: tournament.tournamentid 
+                tournamentid: tournament.data.tournamentid 
             });
-            
-            navigateTo('/');
+
+            const link = tournament.data.link.replace("http://localhost:3000/", "");     
+            navigateTo(link)
         } catch(err) {
-            setError("An error occured, try again!");
+            setError(err);
         } finally {
             setLoading(false)
-            window.location.reload(false);
         }
     }
 

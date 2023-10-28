@@ -42,7 +42,7 @@ const MyTournamentsList = () => {
                     { myTournaments.length > 0 ? 
                         <Stack direction='column' spacing='1rem' marginLeft={'1rem'}>
                             {myTournaments.map((tournament, index) => (
-                                <Box>
+                                <Box key={index}>
                                     <Box display='flex' alignItems='center' justifyContent='space-between' key={index}>
                                         <Typography sx={{ fontWeight: 'bold', fontSize: '1.2rem', width:'40%'}}>
                                             {tournament.name}
