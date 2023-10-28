@@ -54,4 +54,28 @@ export class ResultService {
         }
     };
 
+    async get_results(id: any) {
+        const results = await this.prisma.result.findMany({
+            where: {
+                tournamentid: parseInt(id)
+            },
+            select: {
+                contestant_result_awaycontestandidTocontestant: {
+                    select: {
+                        contestantName: true
+                    }
+                },
+                contestant_result_homecontestandidTocontestant: {
+                    select: {
+                        contestantName: true
+                    }
+                },
+                scoreAway: true,
+                scoreHome: true,
+                round: true
+            }
+        });
+
+        return results;
+    }
 }

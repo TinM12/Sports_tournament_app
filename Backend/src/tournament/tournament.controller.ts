@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { TournamentService } from './tournament.service';
 import { CreateTournamentDto, GetTournamentsDto } from './dto';
 
@@ -14,5 +14,10 @@ export class TournamentController {
   @Get('/')
   get_tournaments(@Body() dto: GetTournamentsDto) {
     return this.tournamentService.get_tournaments(dto);
+  }
+
+  @Get('/owner')
+  get_owner(@Query('id') id: any) {
+    return this.tournamentService.get_owner(id);
   }
 }

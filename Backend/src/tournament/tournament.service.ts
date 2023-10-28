@@ -72,4 +72,21 @@ export class TournamentService {
         }
     };
 
+    async get_owner(id: any) {
+        try {
+            const owner = await this.prisma.tournament.findUnique({
+                where: {
+                    tournamentid: parseInt(id)
+                },
+                select: {
+                    owner: true
+                }
+            });
+
+            return owner;
+        } catch(err) {
+            throw(err) 
+        }
+    }
+
 }

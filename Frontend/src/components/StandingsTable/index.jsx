@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const StandingsTable = ({ tournamentid }) => {
 
@@ -17,7 +17,11 @@ const StandingsTable = ({ tournamentid }) => {
 
     return (
         <Box margin='2rem'>
-            <table>
+            <Typography variant='h5' sx={{ textDecoration: 'underline', fontWeight: 'bold'}}>
+                Standings
+            </Typography>
+            <br/>
+            <table style={{ backgroundColor: '#282A3A'}}>
                 {standings &&
                     <tbody>
                         <tr>

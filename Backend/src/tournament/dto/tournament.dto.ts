@@ -29,3 +29,9 @@ export class CreateTournamentDto {
 export class GetTournamentsDto {
     owner: string;
 }
+
+export class GetOwnerDto {
+    @IsNumber()
+    @IsNotEmpty()
+    tournamentid: number;
+}

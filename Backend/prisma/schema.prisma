@@ -21,7 +21,8 @@ model contestant {
 model result {
   resultid                                         Int        @id @default(autoincrement())
   round                                            Int
-  winner                                           Int?        
+  scoreHome                                        Int?
+  scoreAway                                        Int?
   tournamentid                                     Int
   homecontestandid                                 Int
   awaycontestandid                                 Int
