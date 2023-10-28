@@ -35,7 +35,7 @@ model tournament {
   drawpoints   Float
   losspoints   Float
   tournamentid Int          @id @default(autoincrement())
-  link         String       @db.VarChar(300)
+  link         String?       @db.VarChar(300)
   name         String       @db.VarChar(200)
   owner        String       @db.VarChar(100)
   contestant   contestant[]

@@ -24,8 +24,4 @@ export class CreateTournamentDto {
     @IsString()
     @IsNotEmpty()
     owner: string;
-
-    @IsString()
-    @IsNotEmpty()
-    link: string;
 }

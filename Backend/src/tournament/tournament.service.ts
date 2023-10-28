@@ -15,9 +15,19 @@ export class TournamentService {
                     winpoints: Number(dto.winpoints),
                     losspoints: Number(dto.losspoints),
                     drawpoints: Number(dto.drawpoints),
-                    link: dto.link,
                 }
             });
+
+            const link = `${process.env.FRONTEND_URL}tournament/${dto.owner}/${tournament.tournamentid}`
+
+            await this.prisma.tournament.update({
+                where: {
+                    tournamentid: tournament.tournamentid,
+                },
+                data: {
+                    link: link
+                }
+            })
 
             let contestants = [];
             if(dto.contestants.indexOf(";") != -1) {
