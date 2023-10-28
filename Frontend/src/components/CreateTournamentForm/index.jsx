@@ -1,0 +1,116 @@
+import { Box, Button, CircularProgress, Grid, Stack, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import CtrTextField from '../CtrTextField'
+
+const CreateTournamentForm = () => {
+
+    const { control, handleSubmit, setValue } = useForm();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [contestants, setContestants] = useState();
+    const [winPoints, setWinPoints] = useState();
+    const [drawPoints, setDrawPoints] = useState();
+    const [lossPoints, setLossPoints] = useState();
+
+    const onSubmit = () => {
+
+    }
+
+    const handleContestantsInput = (e) => {
+        setContestants(e.target.value)
+    }
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <Box sx={{ margin: '1rem'}}>
+                <Typography variant='h6' sx={{ textDecoration: 'underline', fontWeight: 'bold', color: '#C69749', marginLeft:'1rem' }}>
+                    CREATE NEW TOURNAMENT:
+                </Typography>
+                <br/>
+                <Stack direction='column' spacing='1rem' marginLeft={'1rem'}>
+                    <Grid container alignItems={'center'} >
+                        <Grid item md={6}>
+                            <Stack direction='column' >
+                                <CtrTextField label='Name' control={control} name='name' defaultVal={''} color='secondary'/>
+                            </Stack>
+                        </Grid>
+                        <Grid item md={1}>
+                        </Grid>
+                        <Grid item md={1.1}>
+                            <Typography color='secondary' sx={{ fontWeight: 'bold' }}>
+                                Points System:
+                            </Typography>
+                        </Grid>
+                        <Grid item md={1} marginLeft='0.5rem'>
+                            <Stack direction='row' spacing='0.4rem' alignItems={'center'}>
+                                    <Typography sx={{ fontSize: '1.1rem' }}>
+                                        Win: 
+                                    </Typography>
+                                    <TextField color='secondary' size='small' sx={{ width:'50%' }} value={winPoints || ""}
+                                        onChange={(e) => {
+                                            setWinPoints(e.target.value);
+                                        }}
+                                    />
+                                </Stack>
+                        </Grid>
+                        <Grid item md={1} marginLeft='0.3rem'>
+                            <Stack direction='row' spacing='0.4rem' alignItems={'center'}>
+                                    <Typography sx={{ fontSize: '1.1rem' }}>
+                                        Draw: 
+                                    </Typography>
+                                    <TextField color='secondary' size='small' sx={{ width:'50%' }} value={drawPoints || ""}
+                                        onChange={(e) => {
+                                            setDrawPoints(e.target.value);
+                                        }}
+                                    />
+                                </Stack>
+                        </Grid>
+                        <Grid item md={1} marginLeft='0.5rem'>
+                            <Stack direction='row' spacing='0.4rem' alignItems={'center'}>
+                                    <Typography sx={{ fontSize: '1.1rem' }}>
+                                        Loss: 
+                                    </Typography>
+                                    <TextField color='secondary' size='small' sx={{ width:'50%' }} value={lossPoints || ""}
+                                        onChange={(e) => {
+                                            setLossPoints(e.target.value);
+                                        }}
+                                    />
+                                </Stack>
+                        </Grid>
+                    </Grid>
+
+                    <Stack sx={{ width: '50%', marginBottom: '1rem' }}>
+                        <TextField
+                            color='secondary'
+                            multiline minRows={1} maxRows={Infinity} 
+                            value={contestants || ''} onChange={handleContestantsInput} label='Contestants'
+                            fullWidth 
+                        />
+                    </Stack>
+                    {loading ?
+                        <Stack direction='row' justifyContent='end'>
+                            <CircularProgress />
+                        </Stack>
+                        : <Stack direction='row' justifyContent='end'>
+                            <Button variant='contained' type='submit' color='secondary' sx={{ padding: '0.6rem', width: '20%', borderRadius: '0.5rem' }}>
+                                Create Tournament
+                            </Button>
+                        </Stack>
+                    }
+                </Stack>
+                <br />
+                {error &&
+                    <Stack direction='column' alignItems='center'>
+                        <Typography color='red'>
+                            {error}
+                        </Typography>
+                    </Stack>
+                }
+            </Box>
+            <hr color='#C69749'/>
+        </form>
+    );
+};
+
+export default CreateTournamentForm;

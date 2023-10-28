@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model contestant {
+  played                                       Int 
+  points                                       Float
+  contestantName                               String     @db.VarChar(200)
+  contestandid                                 Int        @id @default(autoincrement())
+  tournamentid                                 Int
+  tournament                                   tournament @relation(fields: [tournamentid], references: [tournamentid], onDelete: NoAction, onUpdate: NoAction)
+  result_result_contestandidTocontestant       result[]   @relation("result_contestandidTocontestant")
+  result_result_isawaycontestandidTocontestant result[]   @relation("result_isawaycontestandidTocontestant")
+}
+
+model result {
+  resultid                                         Int        @id @default(autoincrement())
+  round                                            Int
+  winner                                           Int
+  tournamentid                                     Int
+  contestandid                                     Int
+  isawaycontestandid                               Int
+  contestant_result_contestandidTocontestant       contestant @relation("result_contestandidTocontestant", fields: [contestandid], references: [contestandid], onDelete: NoAction, onUpdate: NoAction)
+  contestant_result_isawaycontestandidTocontestant contestant @relation("result_isawaycontestandidTocontestant", fields: [isawaycontestandid], references: [contestandid], onDelete: NoAction, onUpdate: NoAction)
+  tournament                                       tournament @relation(fields: [tournamentid], references: [tournamentid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model tournament {
+  winpoints    Float
+  drawpoints   Float
+  losspoints   Float
+  tournamentid Int          @id @default(autoincrement())
+  link         String       @db.VarChar(300)
+  name         String       @db.VarChar(200)
+  owner        String       @db.VarChar(100)
+  contestant   contestant[]
+  result       result[]
+}
