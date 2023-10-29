@@ -15,8 +15,6 @@ const TournamentPage = () => {
     const [tournament, setTournament] = useState();
     const navigateTo = useNavigate();
 
-    
-
     const handleClose = () => {
         navigateTo('/');
     }
@@ -29,6 +27,10 @@ const TournamentPage = () => {
         const loadTournamentId = async() => {
             const queryParams = new URLSearchParams(window.location.search);
             const id = parseInt(queryParams.get("id"));
+            if(isNaN(id)) {
+                navigateTo('/')
+                return;
+            }
             setTournamentId(id);
 
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}tournament/owner?id=${id}`)
@@ -39,10 +41,13 @@ const TournamentPage = () => {
 
             const tournament = await axios.get(`${process.env.REACT_APP_BACKEND_URL}tournament?id=${id}`);
             setTournament(tournament.data);
+            if(tournament.data === "") {
+                navigateTo('/')
+            }
         }
 
         loadTournamentId();
-    }, [user])
+    }, [user, navigateTo])
 
     return (
         <main>
