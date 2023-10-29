@@ -53,7 +53,7 @@ const CreateTournamentForm = () => {
                 tournamentid: tournament.data.tournamentid 
             });
 
-            const link = tournament.data.link.replace("http://localhost:3000/", "");     
+            const link = tournament.data.link.replace(`${process.env.REACT_APP_FRONTEND_URL}`, "");     
             navigateTo(link)
         } catch(err) {
             setError(err);

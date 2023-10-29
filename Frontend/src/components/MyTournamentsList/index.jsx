@@ -12,7 +12,7 @@ const MyTournamentsList = () => {
 
     const handleUpdate = (e) => {
         const fullLink = e.target.value;
-        const link = fullLink.replace("http://localhost:3000/", "");
+        const link = fullLink.replace(`${process.env.REACT_APP_FRONTEND_URL}`, "");
         navigateTo(link)
     }
 
