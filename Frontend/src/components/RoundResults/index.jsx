@@ -21,10 +21,12 @@ const RoundResults = ({ results, round, isOwner, tournamentid, refreshFunction }
         setError();
 
         if(!parseInt(homeScore) || !parseInt(awayScore)) {
-            const temp = []
-            temp[enableUpdate] = "Scores must be Integer values!"
-            setError(temp);
-            return;
+            if((homeScore !== "0" && awayScore !== "0")) {
+                const temp = []
+                temp[enableUpdate] = "Scores must be Integer values!"
+                setError(temp);
+                return;
+            }
         }
 
         await axios.put(`${process.env.REACT_APP_BACKEND_URL}result`, {
