@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, Stack, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -9,6 +9,7 @@ const RoundResults = ({ results, round, isOwner, tournamentid, refreshFunction }
     const [awayScore, setAwayScore] = useState();
     const [refreshResults, setRefreshResults] = useState(0);
     const [localResults, setLocalResults] = useState(results);
+    const [error, setError] = useState([]);
 
     const handleUpdate = (e) => {
         setHomeScore();
@@ -17,6 +18,15 @@ const RoundResults = ({ results, round, isOwner, tournamentid, refreshFunction }
     };
 
     const handleConfirm = async () => {
+        setError();
+
+        if(!parseInt(homeScore) || !parseInt(awayScore)) {
+            const temp = []
+            temp[enableUpdate] = "Scores must be Integer values!"
+            setError(temp);
+            return;
+        }
+
         await axios.put(`${process.env.REACT_APP_BACKEND_URL}result`, {
             scorehome: parseInt(homeScore),
             scoreaway: parseInt(awayScore),
@@ -30,6 +40,7 @@ const RoundResults = ({ results, round, isOwner, tournamentid, refreshFunction }
     };
 
     const handleCancel = () => {
+        setError();
         setHomeScore();
         setAwayScore();
         setEnableUpdate();
@@ -56,7 +67,7 @@ const RoundResults = ({ results, round, isOwner, tournamentid, refreshFunction }
                                     <td>{result.contestant_result_homecontestandidTocontestant.contestantName}</td>
                                     {enableUpdate && enableUpdate === result.resultid?  
                                         <td>
-                                            <TextField color='secondary' size='small' value={homeScore || ""}
+                                            <TextField color='secondary' required size='small' value={homeScore || ""}
                                                 onChange={(e) => {
                                                     setHomeScore(e.target.value);
                                                 }}
@@ -73,13 +84,12 @@ const RoundResults = ({ results, round, isOwner, tournamentid, refreshFunction }
                                             }
                                         </td>
                                     }
-                                    
-                                </tr>
+                                </tr> 
                                 <tr>
                                     <td>{result.contestant_result_awaycontestandidTocontestant.contestantName}</td>
                                     {enableUpdate && enableUpdate === result.resultid?
                                         <td>
-                                            <TextField color='secondary' size='small' value={awayScore || ""}
+                                            <TextField color='secondary' size='small' required value={awayScore || ""}
                                                 onChange={(e) => {
                                                     setAwayScore(e.target.value);
                                                 }}
@@ -99,6 +109,13 @@ const RoundResults = ({ results, round, isOwner, tournamentid, refreshFunction }
                                 </tr>
                             </tbody>
                         </table>
+                        {error && error[result.resultid] &&
+                            <Stack direction='column' marginTop='1rem'>
+                                <Typography color='red'>
+                                    {error[result.resultid]}
+                                </Typography>
+                            </Stack>
+                        }    
                         <br/>
                         {isOwner &&
                             <Box marginBottom={'2rem'}>
