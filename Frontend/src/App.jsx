@@ -13,10 +13,10 @@ function App() {
       <CssBaseline/>
       <BrowserRouter>
         <Routes>
-          <Route path='*' element={<NotFoundPage />} />
           <Route path='/' element={<HomePage/>} />
           <Route path='/login' element={<LoginPage/>} />
           <Route path='/tournament/*' element={<TournamentPage/>}/>
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
