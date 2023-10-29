@@ -1,31 +1,120 @@
-import { Box, Button, Grid } from '@mui/material';
-import React from 'react';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const RoundResults = ({ results, round, isOwner}) => {
+const RoundResults = ({ results, round, isOwner, tournamentid, refreshFunction }) => {
+
+    const [enableUpdate, setEnableUpdate] = useState();
+    const [homeScore, setHomeScore] = useState();
+    const [awayScore, setAwayScore] = useState();
+    const [refreshResults, setRefreshResults] = useState(0);
+    const [localResults, setLocalResults] = useState(results);
+
+    const handleUpdate = (e) => {
+        setHomeScore();
+        setAwayScore();
+        setEnableUpdate(Number(e.target.value));
+    };
+
+    const handleConfirm = async () => {
+        await axios.put(`${process.env.REACT_APP_BACKEND_URL}result`, {
+            scorehome: parseInt(homeScore),
+            scoreaway: parseInt(awayScore),
+            resultid: enableUpdate
+        });
+        setHomeScore();
+        setAwayScore();
+        setEnableUpdate();
+        setRefreshResults(refreshResults + 1);
+        refreshFunction();
+    };
+
+    const handleCancel = () => {
+        setHomeScore();
+        setAwayScore();
+        setEnableUpdate();
+    };
+
+    useEffect(() => {
+        
+        const loadLocalResults = async() => {
+            const temp = await axios.get(`${process.env.REACT_APP_BACKEND_URL}result?id=${tournamentid}`);
+            setLocalResults(temp.data);
+        };
+
+        loadLocalResults();
+    }, [refreshResults, tournamentid])
 
     return (
         <Box>
             <Grid container marginTop='2rem'>
-                {results.filter((result) => result.round === round).map((result,index) => (
+                {localResults && localResults.filter((result) => result.round === round).map((result,index) => (
                     <Grid item md={6} key={index}>
-                        <table style={{ backgroundColor: '#282A3A'}}>
+                        <table style={{ backgroundColor: '#282A3A'}} width={'80%'}>
                             <tbody>
                                 <tr>
                                     <td>{result.contestant_result_homecontestandidTocontestant.contestantName}</td>
-                                    <td>{result.scoreHome || "TBD"}</td>
+                                    {enableUpdate && enableUpdate === result.resultid?  
+                                        <td>
+                                            <TextField color='secondary' size='small' value={homeScore || ""}
+                                                onChange={(e) => {
+                                                    setHomeScore(e.target.value);
+                                                }}
+                                            />
+                                        </td>
+                                        : <td width={'20%'}>
+                                            {result.scoreHome === null ?
+                                                <Typography>
+                                                    TBD
+                                                </Typography>
+                                                : <Typography>
+                                                    {result.scoreHome}
+                                                </Typography>
+                                            }
+                                        </td>
+                                    }
+                                    
                                 </tr>
                                 <tr>
                                     <td>{result.contestant_result_awaycontestandidTocontestant.contestantName}</td>
-                                    <td>{result.scoreAway || "TBD"}</td>
+                                    {enableUpdate && enableUpdate === result.resultid?
+                                        <td>
+                                            <TextField color='secondary' size='small' value={awayScore || ""}
+                                                onChange={(e) => {
+                                                    setAwayScore(e.target.value);
+                                                }}
+                                            />
+                                        </td>
+                                        : <td>
+                                            {result.scoreAway === null ?
+                                                <Typography>
+                                                    TBD
+                                                </Typography>
+                                                : <Typography>
+                                                    {result.scoreAway}
+                                                </Typography>
+                                            }
+                                        </td>
+                                    }
                                 </tr>
                             </tbody>
                         </table>
                         <br/>
                         {isOwner &&
                             <Box marginBottom={'2rem'}>
-                                <Button variant='contained' color='secondary'>
-                                    UPDATE
-                                </Button>
+                                {enableUpdate && enableUpdate === result.resultid ?
+                                    <Box display='flex' spacing='1rem'>
+                                        <Button variant='contained' color='success' onClick={handleConfirm}>
+                                            Confirm
+                                        </Button>
+                                        <Button variant='contained' color='error'  onClick={handleCancel} sx={{ marginLeft: '1rem' }}>
+                                            Cancel
+                                        </Button>
+                                    </Box>
+                                    : <Button variant='contained' color='secondary' value={result.resultid} onClick={handleUpdate}>
+                                        UPDATE
+                                    </Button>
+                                }
                             </Box>  
                         }
                     </Grid>

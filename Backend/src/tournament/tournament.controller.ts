@@ -11,10 +11,15 @@ export class TournamentController {
     return this.tournamentService.create_tournament(dto);
   }
 
-  @Get('/')
+  @Get('/all')
   get_tournaments(@Body() dto: GetTournamentsDto) {
     return this.tournamentService.get_tournaments(dto);
   }
+
+  @Get()
+  get_tournament(@Query('id') id: any) {
+    return this.tournamentService.get_tournament(id);
+  }   
 
   @Get('/owner')
   get_owner(@Query('id') id: any) {

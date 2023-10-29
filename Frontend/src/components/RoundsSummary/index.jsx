@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RoundResults from '../RoundResults';
 
-const RoundsSummary = ({ tournamentid, isOwner }) => {
+const RoundsSummary = ({ tournamentid, isOwner, refreshFunction }) => {
 
     const [results, setResults] = useState();
     const [text, setText] = useState();
@@ -34,9 +34,9 @@ const RoundsSummary = ({ tournamentid, isOwner }) => {
             {results && 
                 <Stack direction='column'  sx={{ width:'100%' }}>
                     {text.map((t, index) => (
-                        <Box key={index} marginTop='2rem'>
+                        <Box key={index} marginTop='1rem'>
                             {t}
-                            <RoundResults results={results} round={index + 1} isOwner={isOwner}/>
+                            <RoundResults results={results} round={index + 1} isOwner={isOwner} tournamentid={tournamentid} refreshFunction={refreshFunction}/>
                             <br/>
                             <hr color='#C69749'/>
                         </Box>

@@ -18,7 +18,7 @@ const MyTournamentsList = () => {
 
     useEffect(() => {
         const loadTournaments = async() => {
-            const tournaments = await axios.get(`${process.env.REACT_APP_BACKEND_URL}tournament`, {
+            const tournaments = await axios.get(`${process.env.REACT_APP_BACKEND_URL}tournament/all`, {
                 owner: user.email
             });
     

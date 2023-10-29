@@ -87,6 +87,21 @@ export class TournamentService {
         } catch(err) {
             throw(err) 
         }
+    };
+    
+
+    async get_tournament(id: any) {
+        try {
+            const tournament = await this.prisma.tournament.findUnique({
+                where: {
+                    tournamentid: parseInt(id)
+                }
+            });
+    
+            return tournament;   
+        } catch(err) {
+            throw(err);
+        }
     }
 
 }

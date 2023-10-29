@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import StandingsTable from '../components/StandingsTable';
 import RoundsSummary from '../components/RoundsSummary';
@@ -11,6 +11,8 @@ const TournamentPage = () => {
     const { user, isAuthenticated } = useAuth0();
     const [tournamentId, setTournamentId] = useState();
     const [isOwner, setIsOwner] = useState(false);
+    const [refreshStandings, setRefreshStandings] = useState(0);
+    const [tournament, setTournament] = useState();
     const navigateTo = useNavigate();
 
     
@@ -18,6 +20,10 @@ const TournamentPage = () => {
     const handleClose = () => {
         navigateTo('/');
     }
+
+    const incrementRefreshStandings = () => {
+        setRefreshStandings(refreshStandings + 1)
+    };  
 
     useEffect(() => {
         const loadTournamentId = async() => {
@@ -30,6 +36,9 @@ const TournamentPage = () => {
             if(user && owner === user.email) {
                 setIsOwner(true);
             }
+
+            const tournament = await axios.get(`${process.env.REACT_APP_BACKEND_URL}tournament?id=${id}`);
+            setTournament(tournament.data);
         }
 
         loadTournamentId();
@@ -37,19 +46,24 @@ const TournamentPage = () => {
 
     return (
         <main>
-            {isAuthenticated &&
-                <Box display='flex' justifyContent='end' margin='1rem'> 
+            <Box display='flex' justifyContent='space-between' margin='1rem'> 
+                {tournament && 
+                    <Typography variant='h4' color='secondary' sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
+                        {tournament.name}
+                    </Typography>
+                }
+                {isAuthenticated &&
                     <Button variant='contained' color='error' onClick={handleClose}>
                         CLOSE
                     </Button>
-                </Box>
-            }
+                }
+            </Box>
             {tournamentId &&
-                <StandingsTable tournamentid={tournamentId}/>
+                <StandingsTable tournamentid={tournamentId} refreshStandings={refreshStandings}/>
             }
             <hr color='#C69749'/>
             {tournamentId &&
-                <RoundsSummary tournamentid={tournamentId} isOwner={isOwner}/>
+                <RoundsSummary tournamentid={tournamentId} isOwner={isOwner} refreshFunction={incrementRefreshStandings}/>
             }
         </main>
     );

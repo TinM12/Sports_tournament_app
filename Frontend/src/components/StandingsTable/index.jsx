@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 
-const StandingsTable = ({ tournamentid }) => {
+const StandingsTable = ({ tournamentid, refreshStandings }) => {
 
     const [standings, setStandings] = useState();
 
@@ -13,7 +13,7 @@ const StandingsTable = ({ tournamentid }) => {
         };    
 
         loadStandings();
-    }, [tournamentid])
+    }, [tournamentid, refreshStandings])
 
     return (
         <Box margin='2rem'>
@@ -21,10 +21,10 @@ const StandingsTable = ({ tournamentid }) => {
                 Standings
             </Typography>
             <br/>
-            <table style={{ backgroundColor: '#282A3A'}}>
+            <table style={{ backgroundColor: '#282A3A'}} width={'70%'}>
                 {standings &&
                     <tbody>
-                        <tr>
+                        <tr style={{ backgroundColor: '#C69749', color: 'black'}}>
                             <td>Position</td>
                             <td>Contestant</td>
                             <td>Played</td>

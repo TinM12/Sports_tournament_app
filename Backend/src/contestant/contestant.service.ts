@@ -11,7 +11,15 @@ export class ContestantService {
             const standings = await this.prisma.contestant.findMany({
                 where: {
                     tournamentid: parseInt(id)
-                }
+                },
+                orderBy: [
+                    {
+                        points: 'desc'
+                    }, 
+                    {
+                        contestantName: 'asc'
+                    }
+                ]
             });
     
             return standings;   
